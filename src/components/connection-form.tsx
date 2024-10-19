@@ -1,4 +1,12 @@
-export function ConnectionForm() {
+type ConnectionFormProps = {
+  isConnected: boolean;
+  isLoading: boolean;
+};
+
+export function ConnectionForm({
+  isConnected,
+  isLoading,
+}: ConnectionFormProps) {
   return (
     <form className="flex w-full justify-center gap-1 items-center" action="">
       <input
@@ -8,13 +16,18 @@ export function ConnectionForm() {
         id=""
         className="px-4 h-12 border"
       />
-      <input
+      <button
         type="submit"
-        className="h-12 px-4 rounded-sm bg-primary text-white cursor-pointer"
-        value="Conectar"
-        name=""
-        id=""
-      />
+        className={`h-12 rounded-sm text-white cursor-pointer w-24 text-sm ${
+          isConnected ? "bg-red-500" : "bg-green-500"
+        }`}
+      >
+        {isLoading && (
+          <span className="w-5 h-5 block bg-transparent border-4 border-t-4 border-t-transparent border-background rounded-full animate-spin"></span>
+        )}
+
+        {!isLoading && <>{isConnected ? "Desconectar" : "Conectar"}</>}
+      </button>
     </form>
   );
 }
