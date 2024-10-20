@@ -1,24 +1,41 @@
+import { useForm } from "react-hook-form";
+
 type ConnectionFormProps = {
   isConnected: boolean;
   isLoading: boolean;
+  establishConnection: (username: string) => void;
+};
+
+type FormValuesProps = {
+  content: string;
 };
 
 export function ConnectionForm({
   isConnected,
   isLoading,
+  establishConnection,
 }: ConnectionFormProps) {
+  const { register, handleSubmit } = useForm<FormValuesProps>();
+
+  const onSubmit = (data: FormValuesProps) => {
+    establishConnection(data.content);
+  };
+
   return (
-    <form className="flex w-full justify-center gap-1 items-center" action="">
+    <form
+      className="flex w-full justify-center gap-1 items-center"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <input
         type="text"
         placeholder="Insira seu nome de usuario"
-        name=""
-        id=""
         className="px-4 h-12 border"
+        disabled={isConnected || isLoading}
+        {...register("content")}
       />
       <button
         type="submit"
-        className={`h-12 rounded-sm text-white cursor-pointer w-24 text-sm ${
+        className={`h-12 rounded-sm flex items-center justify-center text-white cursor-pointer w-24 text-sm ${
           isConnected ? "bg-red-500" : "bg-green-500"
         }`}
       >
