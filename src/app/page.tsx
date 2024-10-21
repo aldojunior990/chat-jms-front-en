@@ -2,7 +2,7 @@
 
 import { ConnectionForm } from "@/components/connection-form";
 import { ListOfChats } from "@/components/list-of-chats";
-import { createConnection } from "@/hooks/websocket";
+import { useWebSocket } from "@/hooks/websocket";
 import { useState } from "react";
 
 type ConnectionState = {
@@ -20,6 +20,9 @@ export default function Home() {
     defaulConnectionState
   );
 
+  const { isConnected, createConnection, messages, sendMessage, listOfUsers } =
+    useWebSocket();
+
   const estabilishConnection = async (username: string) => {
     setConnectionState((prev) => ({
       ...prev,
@@ -34,6 +37,13 @@ export default function Home() {
     }));
   };
 
+  const closeConnection = async () => {
+    setConnectionState((prev) => ({
+      isConnected: false,
+      isLoading: false,
+    }));
+  };
+
   const users: string[] = ["Alice", "Bob", "Charlie", "Diana", "Eve"];
 
   return (
@@ -42,8 +52,19 @@ export default function Home() {
         isConnected={connectionState.isConnected}
         isLoading={connectionState.isLoading}
         establishConnection={estabilishConnection}
+        closeConnection={closeConnection}
       />
+<<<<<<< HEAD
       {connectionState.isConnected && <ListOfChats connectedUsers={users} />}
     </div>
   );
 }
+=======
+
+      {connectionState.isConnected && (
+        <ListOfChats connectedUsers={listOfUsers} />
+      )}
+    </div>
+  );
+}
+>>>>>>> 2d0bb0c89f97260c1e3152151b71c75889a7725c
