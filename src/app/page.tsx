@@ -44,6 +44,6 @@ export default function Home() {
         establishConnection={estabilishConnection}
       />
       {connectionState.isConnected && <ListOfChats connectedUsers={users} />}
-    </div>
-  );
+    </div>
+  );
 }

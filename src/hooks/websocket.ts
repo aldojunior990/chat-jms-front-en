@@ -15,12 +15,12 @@ export async function createConnection(username: string): Promise<string> {
 
   return new Promise((resolve, reject) => {
     connection.socket.addEventListener("open", () => {
-      console.log("conexão estabelecida");
+      console.log("Conexão estabelecida");
     });
 
     connection.socket.addEventListener("message", (event) => {
       console.log(event.data);
-      resolve(event.data);
+      // resolve(event.data);
     });
 
     connection.socket.addEventListener("error", (error) => {
@@ -33,3 +33,6 @@ export async function createConnection(username: string): Promise<string> {
     });
   });
 }
+
+// Exporta a classe WebSocketConnection junto com createConnection
+export { WebSocketConnection };
