@@ -88,6 +88,31 @@ export const useWebSocket = (): WebSocketHookProps => {
     }
   };
 
+<<<<<<< HEAD
+  return new Promise((resolve, reject) => {
+    connection.socket.addEventListener("open", () => {
+      console.log("Conexão estabelecida");
+    });
+
+    connection.socket.addEventListener("message", (event) => {
+      console.log(event.data);
+      // resolve(event.data);
+    });
+
+    connection.socket.addEventListener("error", (error) => {
+      console.error("Erro na conexão WebSocket:", error);
+      reject(error);
+    });
+
+    connection.socket.addEventListener("close", (event) => {
+      console.log("Conexão WebSocket fechada:", event.reason);
+    });
+  });
+}
+
+// Exporta a classe WebSocketConnection junto com createConnection
+export { WebSocketConnection };
+=======
   const sendMessage = (message: string) => {
     if (connection) {
       connection.send(message);
@@ -101,6 +126,7 @@ export const useWebSocket = (): WebSocketHookProps => {
     avaliableChats,
   };
 };
+<<<<<<< HEAD
 
 const getListOfUsers = (content: string) => {
   return content.split(",").map((user) => user.trim());
@@ -166,3 +192,6 @@ const updateMessages = (
 
   return newChats; // Retorna o novo Map atualizado
 };
+=======
+>>>>>>> 2d0bb0c89f97260c1e3152151b71c75889a7725c
+>>>>>>> cbffebf4a99a7b6d43d20c8faa6bf4032a6ce039

@@ -52,6 +52,12 @@ export default function Home() {
         establishConnection={estabilishConnection}
         closeConnection={closeConnection}
       />
+<<<<<<< HEAD
+      {connectionState.isConnected && <ListOfChats connectedUsers={users} />}
+    </div>
+  );
+}
+=======
 
       {connectionState.isConnected && (
         <ListOfChats avaliableChats={avaliableChats} />
@@ -59,3 +65,4 @@ export default function Home() {
     </div>
   );
 }
+>>>>>>> 2d0bb0c89f97260c1e3152151b71c75889a7725c

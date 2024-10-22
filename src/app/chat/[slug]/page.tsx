@@ -36,6 +36,6 @@ export default function ChatDetails({ params }: ChatDetailsProps) {
       </header>
 
       <ChatContainer messages={messages} />
-    </div>
-  );
+    </div>
+  );
 }
