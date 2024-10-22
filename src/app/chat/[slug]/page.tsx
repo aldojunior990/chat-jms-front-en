@@ -1,9 +1,10 @@
 "use client";
 
 import { ChatContainer } from "@/components/chat-container";
+import { useWebSocket } from "@/hooks/websocket";
 import { MessageProps } from "@/models/message";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
 interface ChatDetailsProps {
@@ -12,6 +13,18 @@ interface ChatDetailsProps {
 
 export default function ChatDetails({ params }: ChatDetailsProps) {
   const [messages, setMessages] = useState<MessageProps[]>([]);
+
+  const { avaliableChats } = useWebSocket();
+
+  useEffect(() => {
+    const msgs = avaliableChats.get(params.slug);
+    console.log(msgs);
+    if (msgs) {
+      // Verifica se msgs é "truthy"
+
+      setMessages(msgs);
+    }
+  }, [avaliableChats]);
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-start py-8 px-2 md:px-16 lg:px-80 text-onBackground bg-background">

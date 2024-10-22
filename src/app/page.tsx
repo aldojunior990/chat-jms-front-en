@@ -20,7 +20,7 @@ export default function Home() {
     defaulConnectionState
   );
 
-  const { isConnected, createConnection, messages, sendMessage, listOfUsers } =
+  const { isConnected, createConnection, sendMessage, avaliableChats } =
     useWebSocket();
 
   const estabilishConnection = async (username: string) => {
@@ -44,8 +44,6 @@ export default function Home() {
     }));
   };
 
-  const users: string[] = ["Alice", "Bob", "Charlie", "Diana", "Eve"];
-
   return (
     <div className="w-full h-screen flex py-8 px-2 md:px-16 lg:px-80 flex-col justify-start items-center bg-background text-onBackground">
       <ConnectionForm
@@ -56,7 +54,7 @@ export default function Home() {
       />
 
       {connectionState.isConnected && (
-        <ListOfChats connectedUsers={listOfUsers} />
+        <ListOfChats avaliableChats={avaliableChats} />
       )}
     </div>
   );
