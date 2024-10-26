@@ -1,9 +1,10 @@
 "use client";
 
 import { ChatContainer } from "@/components/chat-container";
-import { useWebSocket } from "@/hooks/websocket";
-import { MessageProps } from "@/models/message";
+import { useAppContext } from "@/context/AppContext";
+import { AvaliableChats } from "@/models/models";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -12,19 +13,29 @@ interface ChatDetailsProps {
 }
 
 export default function ChatDetails({ params }: ChatDetailsProps) {
-  const [messages, setMessages] = useState<MessageProps[]>([]);
+  const { isConnected, avaliableChats } = useAppContext();
 
-  const { avaliableChats } = useWebSocket();
+  const { push } = useRouter();
 
   useEffect(() => {
-    const msgs = avaliableChats.get(params.slug);
-    console.log(msgs);
-    if (msgs) {
-      // Verifica se msgs é "truthy"
-
-      setMessages(msgs);
+    if (!isConnected) {
+      push("/");
     }
-  }, [avaliableChats]);
+  }, [isConnected, push]);
+
+  const [currentChat, setCurrentChat] = useState<AvaliableChats>();
+
+  useEffect(() => {
+    const currentChat = avaliableChats.find(
+      (it) => it.user.id === params.slug.replace("%20", " ")
+    );
+
+    if (currentChat) {
+      setCurrentChat(currentChat);
+    } else {
+      return push("/");
+    }
+  }, [avaliableChats, params.slug]);
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-start py-8 px-2 md:px-16 lg:px-80 text-onBackground bg-background">
@@ -32,10 +43,16 @@ export default function ChatDetails({ params }: ChatDetailsProps) {
         <Link href={"/"} className="p-4 hover:bg-gray-100 rounded-full">
           <FaArrowLeft className="size-4" />
         </Link>
-        {params.slug.replace("%20", " ")}
+        {currentChat?.user.id === "1"
+          ? "Chat geral"
+          : currentChat?.user.username}
       </header>
-
-      <ChatContainer messages={messages} />
-    </div>
-  );
+      <ChatContainer
+        messages={currentChat?.messages ? currentChat.messages : []}
+        currentChat={
+          currentChat?.user ? currentChat.user : { id: "", username: "" }
+        }
+      />
+    </div>
+  );
 }
