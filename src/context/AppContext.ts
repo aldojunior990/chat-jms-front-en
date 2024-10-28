@@ -14,6 +14,7 @@ type AppContextType = {
   createConnection: (username: string) => boolean;
   sendMessage: (message: PrivateMessage | TopicMessage) => void;
   avaliableChats: AvaliableChats[];
+  closeConnection: () => void;
 };
 
 export const AppContext = createContext<AppContextType>({} as AppContextType);

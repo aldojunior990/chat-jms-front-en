@@ -10,14 +10,7 @@ import {
   TopicMessage,
   User,
 } from "@/models/models";
-import {
-  combinatedID,
-  getConnectedUsers,
-  getUserDetails,
-  isPrivateMessage,
-  isServerMessage,
-  isTopicMessage,
-} from "@/utils/utils";
+import { combinatedID, getConnectedUsers, getUserDetails } from "@/utils/utils";
 
 type ContextProviderProps = {
   children: ReactNode;
@@ -184,6 +177,15 @@ export const AppContextProvider: React.FC<ContextProviderProps> = ({
     }
   };
 
+  const closeConnection = () => {
+    if (connection && isConnected) {
+      connection.close();
+      setIsConnected(false);
+      setCurrentUser(null);
+      setConnection(null);
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -192,6 +194,7 @@ export const AppContextProvider: React.FC<ContextProviderProps> = ({
         isConnected,
         sendMessage,
         avaliableChats,
+        closeConnection,
       }}
     >
       {children}
